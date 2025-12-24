@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pilot Shell — ROCEF Base</title>
+  <link rel="stylesheet" href="../css/core.css" />
+  <link rel="stylesheet" href="../css/shell-pilot.css" />
+  <style>
+    /* Pilot shell structure (lightweight, mode-aware) — v1.0.8 */
+    .pilot-wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+    .pilot-topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 12px 14px; }
+    .pilot-left { display:flex; align-items:baseline; gap:10px; }
+    .pilot-title { font-size: 16px; font-weight: 800; letter-spacing: 0.2px; }
+    .pilot-sub { font-size: 12px; opacity: 0.78; }
+    .pilot-right { display:flex; align-items:center; gap:8px; }
+    .btn { border-radius: 12px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.06); color: inherit; padding: 8px 10px; font-size: 13px; cursor:pointer; }
+    .btn.primary { background: rgba(255,255,255,0.14); }
+    .pill { display:inline-flex; align-items:center; padding: 4px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+    .content { padding: 14px; }
+    .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 14px; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tabs { display:flex; gap:8px; padding: 10px 14px; border-top: 1px solid rgba(255,255,255,0.10); border-bottom: 1px solid rgba(255,255,255,0.10); }
+    .tab { border-radius: 999px; padding: 6px 10px; font-size: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); cursor:pointer; }
+    .tab[aria-current="page"] { background: rgba(255,255,255,0.14); }
+    .muted { opacity: 0.78; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+    .row:first-child { border-top: 0; padding-top: 0; }
+    .k { font-weight: 700; }
+  </style>
+</head>
+<body data-shell="pilot">
+  <div class="pilot-wrap">
+    <header class="pilot-topbar" id="topbar">
+      <!-- filled by JS -->
+    </header>
+
+    <div class="tabs" role="navigation" aria-label="Pilot shell modes (demo)">
+      <button class="tab" data-mode="dashboard" aria-current="page">Dashboard</button>
+      <button class="tab" data-mode="selector" aria-current="false">Mission Selector</button>
+      <button class="tab" data-mode="checklist" aria-current="false">Checklist Run</button>
+      <div style="flex:1;"></div>
+      <span class="muted" style="font-size:12px;">Demo modes (static)</span>
+    </div>
+
+    <main class="content" id="view">
+      <!-- filled by JS -->
+    </main>
+  </div>
+
+  <script>
+    const MODES = {
+      dashboard: {
+        title: "Dashboard",
+        sub: "Status, expirations, and what to do next",
+        right: [
+          { type: "pill", text: "Expiring: 2" },
+          { type: "pill", text: "Blocked: 0" },
+          { type: "btn", text: "Start", kind: "primary", action: () => setMode("selector") }
+        ],
+        render: () => `
+          <div class="grid2">
+            <div class="card">
+              <div class="k">My Status</div>
+              <div class="row"><span>Currency</span><span class="pill">Current</span></div>
+              <div class="row"><span>Badges expiring</span><span class="pill">2 soon</span></div>
+              <div class="row"><span>Warnings</span><span class="pill">None</span></div>
+            </div>
+            <div class="card">
+              <div class="k">Favorites</div>
+              <div class="muted" style="margin-top:6px;">Shortcuts that jump into the Mission Selector pre-filtered.</div>
+              <div class="row"><span>Quick Scan</span><button class="btn" onclick="setMode('selector')">Select</button></div>
+              <div class="row"><span>Quick Scan + Night Ops</span><button class="btn" onclick="setMode('selector')">Select</button></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <div class="k">Today</div>
+            <div class="muted" style="margin-top:6px;">Optional mission to-do list (later: assignments).</div>
+            <div class="row"><span>None</span><span class="muted">—</span></div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <div class="k">Recover</div>
+            <div class="muted" style="margin-top:6px;">If a checklist run is paused/incomplete, it appears here for fast recovery.</div>
+            <div class="row"><span>No active run</span><span class="muted">—</span></div>
+          </div>
+        `
+      },
+
+      selector: {
+        title: "Select Checklist",
+        sub: "Choose the checklist you want to run",
+        right: [
+          { type: "btn", text: "Cancel", kind: "default", action: () => setMode("dashboard") }
+        ],
+        render: () => `
+          <div class="card">
+            <div class="k">Mission Selector</div>
+            <div class="muted" style="margin-top:6px;">Fast, minimal, and disposable. Pick a checklist and start.</div>
+            <div class="row"><span>Quick Scan (M3TD)</span><button class="btn primary" onclick="setMode('checklist')">Start</button></div>
+            <div class="row"><span>Quick Scan + Night Ops (M4T)</span><button class="btn primary" onclick="setMode('checklist')">Start</button></div>
+            <div class="row"><span>Corridor Patrol</span><button class="btn primary" onclick="setMode('checklist')">Start</button></div>
+          </div>
+        `
+      },
+
+      checklist: {
+        title: "Checklist Run",
+        sub: "Execute safely — minimal distraction",
+        right: [
+          { type: "pill", text: "Active Run" },
+          { type: "btn", text: "Pause", kind: "default", action: () => alert("Pause (later: saves state)") },
+          { type: "btn", text: "Abort", kind: "default", action: () => alert("Abort (later: requires reason)") }
+        ],
+        render: () => `
+          <div class="card">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div>
+                <div class="k">M3TD — Quick Scan</div>
+                <div class="muted" style="margin-top:4px;">Progress: 0 / 38</div>
+              </div>
+              <span class="pill">0%</span>
+            </div>
+            <div class="muted" style="margin-top:10px;">
+              Checklist content will be dynamically generated later. This page is the primary “work surface” of Pilot shell.
+            </div>
+            <div class="row" style="margin-top:10px;"><span>Item 1 (example)</span><span class="pill">Pending</span></div>
+            <div class="row"><span>Item 2 (example)</span><span class="pill">Pending</span></div>
+            <div class="row"><span>Item 3 (example)</span><span class="pill">Pending</span></div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <div class="k">Notes</div>
+            <div class="muted" style="margin-top:6px;">
+              We will design recovery behavior later. Ideal: complete checklist; required: safe abort + quick recovery if page is lost.
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function setMode(mode){
+      document.querySelectorAll(".tab").forEach(t => {
+        const m = t.getAttribute("data-mode");
+        t.setAttribute("aria-current", m === mode ? "page" : "false");
+      });
+
+      const tb = document.getElementById("topbar");
+      const cfg = MODES[mode] || MODES.dashboard;
+
+      const rightHtml = (cfg.right || []).map(x => {
+        if(x.type === "pill") return `<span class="pill">${x.text}</span>`;
+        const cls = x.kind === "primary" ? "btn primary" : "btn";
+        return `<button class="${cls}" data-action="${x.text}">${x.text}</button>`;
+      }).join("");
+
+      tb.innerHTML = `
+        <div class="pilot-left">
+          <div>
+            <div class="pilot-title">${cfg.title}</div>
+            <div class="pilot-sub">${cfg.sub}</div>
+          </div>
+        </div>
+        <div class="pilot-right">${rightHtml}</div>
+      `;
+
+      (cfg.right || []).forEach(x => {
+        if(x.type === "btn"){
+          const btn = tb.querySelector(`button[data-action="${x.text}"]`);
+          if(btn) btn.addEventListener("click", x.action);
+        }
+      });
+
+      document.getElementById("view").innerHTML = cfg.render();
+    }
+
+    window.setMode = setMode;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".tab").forEach(t => {
+        t.addEventListener("click", () => setMode(t.getAttribute("data-mode")));
+      });
+      setMode("dashboard");
+    });
+  </script>
+</body>
+</html>

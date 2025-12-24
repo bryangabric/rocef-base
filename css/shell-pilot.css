@@ -1,0 +1,17 @@
+/* shell-pilot.css — v1.1.0
+   Pilot shell visual identity.
+   Pilot owns its background and color theme.
+*/
+
+body[data-shell="pilot"] {
+  /* Pilot background gradient (locked decision) */
+  --pilot-bg-gradient: radial-gradient(
+    1200px 800px at 20% -10%,
+    #0f1b33 0%,
+    #0b1220 45%,
+    #070b14 100%
+  );
+
+  background: var(--pilot-bg-gradient);
+  color: rgba(255,255,255,0.92);
+}

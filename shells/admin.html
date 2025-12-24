@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ROCEF Admin</title>
+  <link rel="icon" href="assets/rocef_favicon_cube_v1.0.png" />
+  <link rel="stylesheet" href="../css/core.css" />
+  <link rel="stylesheet" href="../css/shell-admin.css" />
+</head>
+<body>
+<!-- ROCEF Base Admin Shell — v1.0.6 -->
+  <div class="app">
+    <aside class="sidebar"><div class="sidebarInner">
+      <div class="brandBar">
+  <div class="brand">
+		  <img
+			src="../assets/rocef_cube_primary_v1.0.png"
+			alt="ROCEF"
+			class="brandLogo"
+		  />
+		  <div class="brandText">ROCEF</div>
+		</div>
+</div>
+<div class="navDivider"></div>
+<nav class="nav">
+        <a class="navItem" href="#/dashboard" data-route="dashboard">
+          <span class="navIcon"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M3 13h8V3H3v10Zm10 8h8V11h-8v10ZM3 21h8V15H3v6Zm10-10h8V3h-8v8Z"/></svg></span>
+          <span class="navLabel">Dashboard</span>
+        </a>
+        <a class="navItem" href="#/operators" data-route="operators">
+          <span class="navIcon"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M16 11c1.66 0 3-1.79 3-4s-1.34-4-3-4-3 1.79-3 4 1.34 4 3 4ZM8 11c1.66 0 3-1.79 3-4S9.66 3 8 3 5 4.79 5 7s1.34 4 3 4Zm0 2c-2.67 0-8 1.34-8 4v2h10v-2c0-1.28.49-2.36 1.27-3.22C10.36 13.3 9.02 13 8 13Zm8 0c-.86 0-1.95.16-3.04.5C14.2 14.36 15 15.6 15 17v2h9v-2c0-2.66-5.33-4-8-4Z"/></svg></span>
+          <span class="navLabel">Operators</span>
+        </a>
+        <a class="navItem" href="#/reports" data-route="reports">
+          <span class="navIcon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 3h18v2H3V3Zm0 16h18v2H3v-2Zm2-14h14v14H5V5Zm2 2v10h10V7H7Zm1 1h8v2H8V8Zm0 3h8v2H8v-2Zm0 3h5v2H8v-2Z"/></svg></span>
+          <span class="navLabel">Reports</span>
+        </a>
+        <a class="navItem disabled" href="#/settings" data-route="settings" aria-disabled="true" tabindex="-1">
+          <span class="navIcon"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94a7.43 7.43 0 0 0 .05-.94 7.43 7.43 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.16 7.16 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 1h-3.8a.5.5 0 0 0-.49.42l-.36 2.54a7.16 7.16 0 0 0-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 7.48a.5.5 0 0 0 .12.64l2.03 1.58a7.43 7.43 0 0 0-.05.94c0 .32.02.63.05.94L2.83 14.52a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.38 1.05.69 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.8a.5.5 0 0 0 .49-.42l.36-2.54c.58-.25 1.13-.56 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5Z"/></svg></span>
+          <span class="navLabel">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebarFooter">
+        <div class="pill">Mode: <span id="apiModePill">mock</span></div>
+      </div>
+    </div></aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs" id="crumbs">Admin</div>
+        <div class="topActions">
+          <button class="iconBtn" title="Notifications" aria-label="Notifications">🔔</button>
+          <button class="iconBtn" title="Help" aria-label="Help">?</button>
+          <div class="userChip" title="Admin User">
+            <div class="avatar"></div>
+            <div class="userMeta">
+              <div class="userName">Admin</div>
+              <div class="userRole">ROCEF</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="appRoot">
+        <!-- routed content -->
+      </main>
+    </div>
+  </div>
+</body>
+</html>
