@@ -44,7 +44,6 @@ body[data-shell="exec"] {
 .exec-hero{
   position: relative;
   isolation: isolate;
-  position:relative;
   padding: 10px 16px;
   height: 108px;
   display:flex;
